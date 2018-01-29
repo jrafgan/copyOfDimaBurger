@@ -1,8 +1,8 @@
 import React from 'react';
 import './Ingredient.css';
 
-const BurgerIngredient = props => {
-
+const Ingredient = props => {
+  return null;
 };
 
-export default BurgerIngredient;
+export default Ingredient;
