@@ -19,6 +19,11 @@ const BuildControls = props => {
           />
         );
       })}
+      <button
+        disabled={!props.purchasable}
+        className="OrderButton"
+        onClick={props.ordered}
+      >ORDER NOW</button>
     </div>
   )
 };
