@@ -10,19 +10,25 @@ class Checkout extends Component {
       cheese: 2,
       salad: 2,
       meat: 1
-    }
+    },
+    price: 0
   };
 
   componentDidMount() {
-    const query = new URLSearchParams(this.props.location.search);
+    const query = new URLSearchParams(this.props.location.search); // salad=3&cheese=2&price=210
     const ingredients = {};
+    let price = 0;
 
     for (let param of query.entries()) {
       // ['salad', '3']
-      ingredients[param[0]] = +param[1];
+      if (param[0] === 'price') {
+        price = param[1];
+      } else {
+        ingredients[param[0]] = +param[1];
+      }
     }
 
-    this.setState({ingredients});
+    this.setState({ingredients, price});
   }
 
   checkoutCancelledHandler = () => {
@@ -43,7 +49,13 @@ class Checkout extends Component {
         />
         <Route
           path={this.props.match.path + '/contact-data'}
-          render={(props) => <ContactData ingredients={this.state.ingredients} {...props}/>}
+          render={(props) => { // {history: {}, location: {}, match: {}, ...}
+            return <ContactData
+              ingredients={this.state.ingredients}
+              price={this.state.price}
+              {...props}
+            />;
+          }}
         />
       </Fragment>
     );
