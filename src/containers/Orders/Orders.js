@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import axios from '../../axios-orders';
 import OrderItem from "../../components/Order/OrderItem/OrderItem";
 import Spinner from "../../components/UI/Spinner/Spinner";
+import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 
 class Orders extends Component {
   state = {
@@ -28,8 +29,8 @@ class Orders extends Component {
   render() {
     let orders = this.state.orders.map(order => (
       <OrderItem key={order.id}
-                 ingredients={order.ingredients}
-                 price={order.price}
+        ingredients={order.ingredients}
+        price={order.price}
       />
     ));
 
@@ -41,4 +42,4 @@ class Orders extends Component {
   }
 }
 
-export default Orders;
+export default withErrorHandler(Orders, axios);
