@@ -4,7 +4,6 @@ import Spinner from "../../components/UI/Spinner/Spinner";
 
 import axios from '../../axios-orders';
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
-import withLoader from "../../hoc/withLoader/withLoader";
 
 class Orders extends Component {
   state = {
@@ -44,4 +43,4 @@ class Orders extends Component {
   }
 }
 
-export default withLoader(withErrorHandler(Orders, axios), axios);
+export default withErrorHandler(Orders, axios);
