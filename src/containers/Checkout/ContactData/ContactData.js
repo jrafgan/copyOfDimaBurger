@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import './ContactData.css';
 import axios from '../../../axios-orders';
 
@@ -13,10 +14,6 @@ class ContactData extends Component {
     postal: '',
     loading: false
   };
-
-  componentDidMount() {
-    console.log('[ContactData] didMount', this.props)
-  }
 
   valueChanged = (event) => {
     const name = event.target.name;
@@ -72,4 +69,11 @@ class ContactData extends Component {
   }
 }
 
-export default ContactData;
+const mapStateToProps = state => {
+  return {
+    ingredients: state.bb.ingredients,
+    price: state.bb.totalPrice
+  }
+};
+
+export default connect(mapStateToProps)(ContactData);
