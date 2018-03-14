@@ -6,7 +6,8 @@ import Burger from "../../components/Burger/Burger";
 import BuildControls from "../../components/Burger/BuildControls/BuildControls";
 import Modal from "../../components/UI/Modal/Modal";
 import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
-import {addIngredient, removeIngredient} from "../../store/actions/burgerBuilder";
+import {addIngredient, initIngredients, removeIngredient} from "../../store/actions/burgerBuilder";
+import {orderInit} from "../../store/actions/order";
 
 
 class BurgerBuilder extends Component {
@@ -32,8 +33,13 @@ class BurgerBuilder extends Component {
   };
 
   purchaseContinueHandler = () => {
+    this.props.onOrderInit();
     this.props.history.push('/checkout');
   };
+
+  componentDidMount() {
+    this.props.onInitIngredients();
+  }
 
   render() {
     const disabledInfo = {...this.props.ings};
@@ -71,15 +77,17 @@ class BurgerBuilder extends Component {
 
 const mapStateToProps = state => {
   return {
-    ings: state.ingredients,
-    price: state.totalPrice
+    ings: state.bb.ingredients,
+    price: state.bb.totalPrice
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     onIngredientAdded: ingName => dispatch(addIngredient(ingName)),
-    onIngredientRemoved: ingName => dispatch(removeIngredient(ingName))
+    onIngredientRemoved: ingName => dispatch(removeIngredient(ingName)),
+    onOrderInit: () => dispatch(orderInit()),
+    onInitIngredients: () => dispatch(initIngredients())
   };
 };
 
