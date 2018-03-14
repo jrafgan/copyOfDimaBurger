@@ -7,13 +7,18 @@ import BuildControls from "../../components/Burger/BuildControls/BuildControls";
 import Modal from "../../components/UI/Modal/Modal";
 import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 
-import {addIngredient, removeIngredient} from "../../store/actions/burgerBuilder";
+import {addIngredient, initIngredients, removeIngredient} from "../../store/actions/burgerBuilder";
+import {orderInit} from "../../store/actions/order";
 
 
 class BurgerBuilder extends Component {
   state = {
     purchasing: false
   };
+
+  componentDidMount() {
+    this.props.onInitIngredients();
+  }
 
   isPurchasable = () => {
     const ingredients = this.props.ings;
@@ -33,6 +38,7 @@ class BurgerBuilder extends Component {
   };
 
   purchaseContinueHandler = () => {
+    this.props.onOrderInit();
     this.props.history.push('/checkout');
   };
 
@@ -80,7 +86,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onIngredientAdded: (ingName) => dispatch(addIngredient(ingName)),
-    onIngredientRemoved: (ingName) => dispatch(removeIngredient(ingName))
+    onIngredientRemoved: (ingName) => dispatch(removeIngredient(ingName)),
+    onInitIngredients: () => dispatch(initIngredients()),
+    onOrderInit: () => dispatch(orderInit())
   }
 };
 

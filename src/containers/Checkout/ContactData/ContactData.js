@@ -1,28 +1,28 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import './ContactData.css';
-import axios from '../../../axios-orders';
 
 import Button from "../../../components/UI/Button/Button";
 import Spinner from "../../../components/UI/Spinner/Spinner";
+import {placeOrder} from "../../../store/actions/order";
+import {Redirect} from "react-router-dom";
 
 class ContactData extends Component {
   state = {
     name: '',
     email: '',
     street: '',
-    postal: '',
-    loading: false
+    postal: ''
   };
 
-  valueChanged = (event) => {
+  valueChanged = event => {
     const name = event.target.name;
     this.setState({[name]: event.target.value});
   };
 
-  orderHandler = (event) => {
+  orderHandler = event => {
     event.preventDefault();
-    this.setState({loading: true});
+
     const order = {
       ingredients: this.props.ingredients,
       price: this.props.price,
@@ -34,10 +34,7 @@ class ContactData extends Component {
       }
     };
 
-    axios.post('/orders.json', order).finally(() => {
-      this.setState({loading: false});
-      this.props.history.push('/');
-    });
+    this.props.onOrderPlaced(order);
   };
 
   render() {
@@ -56,8 +53,12 @@ class ContactData extends Component {
       </form>
     );
 
-    if (this.state.loading) {
+    if (this.props.loading) {
       form = <Spinner />;
+    }
+
+    if (this.props.ordered) {
+      form = <Redirect to="/" />;
     }
 
     return (
@@ -72,8 +73,16 @@ class ContactData extends Component {
 const mapStateToProps = state => {
   return {
     ingredients: state.bb.ingredients,
-    price: state.bb.totalPrice
+    price: state.bb.totalPrice,
+    loading: state.order.loading,
+    ordered: state.order.ordered,
   }
 };
 
-export default connect(mapStateToProps)(ContactData);
+const mapDispatchToProps = dispatch => {
+  return {
+    onOrderPlaced: order => dispatch(placeOrder(order))
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactData);
