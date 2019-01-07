@@ -1,13 +1,12 @@
-import React, {Component} from 'react';
-import Wrapper from "../../hoc/Wrapper";
+import React, {Component, Fragment} from 'react';
 
 class BurgerBuilder extends Component {
   render() {
     return (
-      <Wrapper>
+      <Fragment>
         <div>Burger will be here</div>
         <div>Build controls will be here</div>
-      </Wrapper>
+      </Fragment>
     )
   }
 }
