@@ -1,6 +1,7 @@
 import React from 'react';
-import './BuildControls.css';
 import BuildControl from "./BuildControl/BuildControl";
+
+import './BuildControls.css';
 
 const controls = [
   {type: 'salad'},
@@ -22,6 +23,13 @@ const BuildControls = props => {
           disabled={props.disabledInfo[control.type]}
         />
       ))}
+      <button
+        className="OrderButton"
+        disabled={!props.purchasable}
+        onClick={props.purchase}
+      >
+        ORDER NOW
+      </button>
     </div>
   )
 };
