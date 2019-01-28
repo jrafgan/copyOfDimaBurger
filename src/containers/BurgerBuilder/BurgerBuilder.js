@@ -24,6 +24,19 @@ class BurgerBuilder extends Component {
     purchasing: false
   };
 
+  constructor(props) {
+    super(props);
+    console.log(props);
+  }
+
+  componentDidMount() {
+    console.log('[BurgerBuilder] did mount');
+  }
+
+  componentWillUnmount() {
+    console.log('[BurgerBuilder] will unmount');
+  }
+
   addIngredientHandler = type => {
     const oldCount = this.state.ingredients[type];
     const updatedCount = oldCount + 1;
@@ -71,7 +84,19 @@ class BurgerBuilder extends Component {
   };
 
   purchaseContinue = () => {
-    alert('You continued!')
+    const queryParams = [];
+
+    for (let i in this.state.ingredients) {
+      queryParams.push(encodeURIComponent(i) + '='
+        + encodeURIComponent(this.state.ingredients[i]));
+    }
+
+    const queryString = queryParams.join('&');
+
+    this.props.history.push({
+      pathname: '/checkout',
+      search: '?' + queryString
+    });
   };
 
   render() {
