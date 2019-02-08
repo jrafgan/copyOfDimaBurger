@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import BurgerBuilder from "./containers/BurgerBuilder/BurgerBuilder";
-import {BrowserRouter, Switch, Route} from "react-router-dom";
+import {Switch, Route} from "react-router-dom";
 import Checkout from "./containers/Checkout/Checkout";
 import Layout from "./components/Layout/Layout";
 import Orders from "./containers/Orders/Orders";

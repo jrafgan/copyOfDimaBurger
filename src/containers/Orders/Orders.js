@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import axios from '../../axios-orders';
 import Spinner from "../../components/UI/Spinner/Spinner";
 import OrderItem from "../../components/Order/OrderItem/OrderItem";
+import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
+import ErrorBoundary from "../../components/ErrorBoundary/ErrorBoundary";
 
 class Orders extends Component {
   state = {
@@ -11,6 +13,8 @@ class Orders extends Component {
 
   componentDidMount() {
     axios.get('/orders.json').then(response => {
+      if (!response.data) return;
+
       const fetchedOrders = Object.keys(response.data).map(key => {
         return {
           ...response.data[key],
@@ -30,13 +34,14 @@ class Orders extends Component {
     }
 
     return this.state.orders.map(order => (
-      <OrderItem
-        key={order.id}
-        ingredients={order.ingredients}
-        price={order.price}
-      />
+      <ErrorBoundary key={order.id}>
+        <OrderItem
+          ingredients={order.ingredients}
+          price={order.price}
+        />
+      </ErrorBoundary>
     ));
   }
 }
 
-export default Orders;
+export default withErrorHandler(Orders, axios);

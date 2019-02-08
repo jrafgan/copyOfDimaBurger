@@ -8,6 +8,8 @@ const OrderItem = props => {
     <span key={igKey}>{igKey} ({props.ingredients[igKey]})</span>
   ));
 
+  if (Math.random() > 0.7) throw new Error('Well, this happened');
+
   return (
     <div className="OrderItem">
       <p>Ingredients: {ingredientOutput}</p>
